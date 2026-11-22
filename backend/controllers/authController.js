@@ -114,18 +114,21 @@ async function register(req, res) {
       username: username
     };
 
-    return res.status(201).json({
-      success: true,
-      message: 'Account created successfully! Welcome to ApexTrust Bank.',
-      data: {
-        customer_id: newCustomerId,
-        full_name,
-        email,
-        username,
-        account_number: accountNumber,
-        account_type: 'Savings',
-        balance: INITIAL_DEMO_BALANCE
-      }
+    req.session.save((saveErr) => {
+      if (saveErr) console.error('Register session save error:', saveErr);
+      return res.status(201).json({
+        success: true,
+        message: 'Account created successfully! Welcome to ApexTrust Bank.',
+        data: {
+          customer_id: newCustomerId,
+          full_name,
+          email,
+          username,
+          account_number: accountNumber,
+          account_type: 'Savings',
+          balance: INITIAL_DEMO_BALANCE
+        }
+      });
     });
 
   } catch (error) {
@@ -145,25 +148,29 @@ async function register(req, res) {
  * Route: POST /api/auth/login
  */
 async function login(req, res) {
-  const { username_or_email, password } = req.body;
+  const identifier = (req.body.username_or_email || req.body.username || req.body.email || req.body.account_number || '').trim();
+  const { password } = req.body;
 
   try {
-    // 1. Look up customer by username OR email
+    // 1. Look up customer by username, email, account number, or mobile number
     const [rows] = await pool.query(
       `SELECT 
-         c.customer_id, c.full_name, c.email, c.username, c.password_hash,
+         c.customer_id, c.full_name, c.email, c.username, c.mobile_number, c.password_hash,
          a.account_id, a.account_number, a.account_type, a.balance, a.account_status
        FROM customers c
        LEFT JOIN accounts a ON c.customer_id = a.customer_id
-       WHERE c.username = ? OR c.email = ?
+       WHERE LOWER(c.username) = LOWER(?) 
+          OR LOWER(c.email) = LOWER(?)
+          OR a.account_number = ?
+          OR c.mobile_number = ?
        LIMIT 1`,
-      [username_or_email, username_or_email]
+      [identifier, identifier, identifier, identifier]
     );
 
     if (rows.length === 0) {
       return res.status(401).json({
         success: false,
-        message: 'Invalid credentials. No customer found matching that username or email.'
+        message: 'Invalid credentials. No customer found matching that username, email, or account number.'
       });
     }
 
@@ -186,25 +193,28 @@ async function login(req, res) {
       });
     }
 
-    // 4. Set session cookie
+    // 4. Set session cookie and explicitly save
     req.session.customer = {
       customer_id: customer.customer_id,
       username: customer.username
     };
 
-    return res.status(200).json({
-      success: true,
-      message: 'Login successful. Welcome back!',
-      data: {
-        customer: sanitizeCustomer(customer),
-        account: {
-          account_id: customer.account_id,
-          account_number: customer.account_number,
-          account_type: customer.account_type,
-          balance: parseFloat(customer.balance),
-          account_status: customer.account_status
+    req.session.save((saveErr) => {
+      if (saveErr) console.error('Login session save error:', saveErr);
+      return res.status(200).json({
+        success: true,
+        message: 'Login successful. Welcome back!',
+        data: {
+          customer: sanitizeCustomer(customer),
+          account: {
+            account_id: customer.account_id,
+            account_number: customer.account_number,
+            account_type: customer.account_type,
+            balance: parseFloat(customer.balance),
+            account_status: customer.account_status
+          }
         }
-      }
+      });
     });
 
   } catch (error) {

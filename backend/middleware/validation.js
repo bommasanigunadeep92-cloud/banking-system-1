@@ -83,9 +83,13 @@ const validateRegistration = [
  * Validation rules for customer login
  */
 const validateLogin = [
-  body('username_or_email')
-    .trim()
-    .notEmpty().withMessage('Please enter your username or email address.'),
+  body().custom((value, { req }) => {
+    const ident = req.body.username_or_email || req.body.username || req.body.email || req.body.account_number;
+    if (!ident || !String(ident).trim()) {
+      throw new Error('Please enter your username, email, or account number.');
+    }
+    return true;
+  }),
 
   body('password')
     .notEmpty().withMessage('Please enter your password.'),
