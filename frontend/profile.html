@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Profile & Security | ApexTrust Bank</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Custom Styling -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <!-- Sidebar Component -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <!-- Top Navbar -->
+      <div id="top-navbar-container"></div>
+
+      <!-- Page Container -->
+      <main class="page-container">
+
+        <div class="mb-4">
+          <h3 class="fw-bold text-navy mb-1">Security & Profile Settings</h3>
+          <p class="text-muted-bank small mb-0">Manage your login credentials, verify active session tokens, and update profile data.</p>
+        </div>
+
+        <div class="row g-4">
+          <!-- Change Password Form -->
+          <div class="col-lg-6">
+            <div class="card bank-card p-4 border-0 shadow-sm h-100">
+              <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                <i class="bi bi-key-fill text-primary fs-4"></i>
+                <div>
+                  <h5 class="fw-bold text-navy mb-0">Change Account Password</h5>
+                  <small class="text-muted">Protects your account with salted bcrypt hashing</small>
+                </div>
+              </div>
+
+              <div id="password-alert" class="alert d-none small py-2 px-3 mb-3"></div>
+
+              <form id="change-password-form" novalidate>
+                <div class="mb-3">
+                  <label for="current_password" class="form-label small fw-semibold text-navy">Current Password</label>
+                  <input type="password" class="form-control" id="current_password" required placeholder="Enter existing password">
+                </div>
+
+                <div class="mb-3">
+                  <label for="new_password" class="form-label small fw-semibold text-navy">New Password</label>
+                  <input type="password" class="form-control" id="new_password" required placeholder="At least 6 characters">
+                </div>
+
+                <div class="mb-4">
+                  <label for="confirm_new_password" class="form-label small fw-semibold text-navy">Confirm New Password</label>
+                  <input type="password" class="form-control" id="confirm_new_password" required placeholder="Re-type new password">
+                </div>
+
+                <button type="submit" class="btn btn-bank-primary w-100 py-2 d-flex align-items-center justify-content-center gap-2" id="pwd-submit-btn">
+                  <i class="bi bi-shield-check"></i>
+                  <span>Update Password</span>
+                </button>
+              </form>
+            </div>
+          </div>
+
+          <!-- Active Session & Security Audit -->
+          <div class="col-lg-6">
+            <div class="card bank-card p-4 border-0 shadow-sm h-100 d-flex flex-column justify-content-between">
+              <div>
+                <div class="d-flex align-items-center gap-2 mb-3 pb-2 border-bottom">
+                  <i class="bi bi-shield-lock-fill text-success fs-4"></i>
+                  <div>
+                    <h5 class="fw-bold text-navy mb-0">Session & Security Audit</h5>
+                    <small class="text-muted">Server-authoritative protection indicators</small>
+                  </div>
+                </div>
+
+                <div class="p-3 bg-light rounded-3 border mb-3">
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="small text-muted">Session Authentication:</span>
+                    <span class="badge bg-success-subtle text-success">Active & Verified</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="small text-muted">Session Cookie Name:</span>
+                    <code class="text-navy">banking.sid</code>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center mb-2">
+                    <span class="small text-muted">Cookie Flags:</span>
+                    <span class="badge bg-primary-subtle text-primary">HttpOnly & SameSite=Lax</span>
+                  </div>
+                  <div class="d-flex justify-content-between align-items-center">
+                    <span class="small text-muted">Client Browser Agent:</span>
+                    <span class="small text-navy text-truncate" style="max-width: 180px;" id="client-user-agent">Browser Session</span>
+                  </div>
+                </div>
+
+                <div class="p-3 bg-blue-light rounded-3 border mb-3">
+                  <h6 class="fw-semibold text-navy mb-1 small">
+                    <i class="bi bi-info-circle-fill text-primary me-1"></i> Security Best Practice
+                  </h6>
+                  <p class="small text-muted mb-0">
+                    Always end your online banking session when using public or shared computers to prevent unauthorized browser tab reuse.
+                  </p>
+                </div>
+              </div>
+
+              <div class="pt-3 border-top">
+                <button class="btn btn-outline-danger w-100 py-2 d-flex align-items-center justify-content-center gap-2" onclick="logout()">
+                  <i class="bi bi-box-arrow-right"></i>
+                  <span>End Session & Log Out Immediately</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Client Utilities -->
+  <script src="js/config.js"></script>
+  <!-- Profile Script -->
+  <script src="js/profile.js"></script>
+</body>
+</html>

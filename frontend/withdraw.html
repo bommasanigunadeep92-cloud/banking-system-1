@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Withdraw Cash | ApexTrust Bank</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Custom Styling -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <div class="app-wrapper">
+    <!-- Sidebar Component -->
+    <div id="sidebar-container"></div>
+
+    <!-- Main Content Area -->
+    <div class="main-content">
+      <!-- Top Navbar -->
+      <div id="top-navbar-container"></div>
+
+      <!-- Page Container -->
+      <main class="page-container">
+
+        <div class="mb-4">
+          <h3 class="fw-bold text-navy mb-1">Withdraw Funds</h3>
+          <p class="text-muted-bank small mb-0">Simulate an ATM or teller cash withdrawal with strict overdraft protection.</p>
+        </div>
+
+        <div class="row g-4 justify-content-center">
+          <div class="col-lg-7">
+
+            <!-- Withdrawal Card -->
+            <div class="card bank-card p-4 p-md-5 border-0 shadow-sm">
+              <div class="d-flex justify-content-between align-items-center mb-4 pb-2 border-bottom">
+                <div>
+                  <h5 class="fw-bold text-navy mb-0">Cash Withdrawal Form</h5>
+                  <span class="small text-muted">Real-time balance verification</span>
+                </div>
+                <span class="badge bg-danger-subtle text-danger px-3 py-2 rounded-pill">
+                  <i class="bi bi-shield-lock-fill me-1"></i> Balance Protected
+                </span>
+              </div>
+
+              <!-- Alert Container -->
+              <div id="withdraw-alert" class="alert d-none small py-2 px-3 mb-3"></div>
+
+              <form id="withdraw-form" novalidate>
+                <!-- Target Account Number (Read-only) -->
+                <div class="mb-3">
+                  <label for="withdraw_account_number" class="form-label small fw-semibold text-navy">Account Number (Debit From)</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light text-muted border-end-0"><i class="bi bi-wallet2"></i></span>
+                    <input type="text" class="form-control border-start-0 bg-light fw-bold text-navy" id="withdraw_account_number" readonly disabled>
+                  </div>
+                </div>
+
+                <!-- Current Balance Card -->
+                <div class="mb-3 p-3 bg-light rounded-3 border d-flex justify-content-between align-items-center">
+                  <div>
+                    <span class="small text-muted d-block">Available Account Balance:</span>
+                    <small class="text-danger" id="insufficient-warning" style="display: none;">
+                      <i class="bi bi-exclamation-triangle-fill"></i> Amount exceeds available balance!
+                    </small>
+                  </div>
+                  <span class="fw-bold text-navy fs-5" id="withdraw-current-balance">₹0.00</span>
+                </div>
+
+                <!-- Withdrawal Amount -->
+                <div class="mb-3">
+                  <label for="withdraw_amount" class="form-label small fw-semibold text-navy">Withdrawal Amount (₹ INR)</label>
+                  <div class="input-group">
+                    <span class="input-group-text bg-light text-muted border-end-0 fw-bold">₹</span>
+                    <input type="number" step="0.01" min="1.00" class="form-control border-start-0 fs-5 fw-semibold" id="withdraw_amount" name="amount" placeholder="0.00" required>
+                  </div>
+                  <div class="form-text small">Withdrawal cannot exceed current available balance.</div>
+                </div>
+
+                <!-- Quick Amount Selector Buttons -->
+                <div class="mb-4">
+                  <label class="form-label small fw-semibold text-navy mb-2">Common ATM Amounts</label>
+                  <div class="d-flex flex-wrap gap-2">
+                    <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" onclick="setWithdrawAmount(200)">₹200</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" onclick="setWithdrawAmount(500)">₹500</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" onclick="setWithdrawAmount(1000)">₹1,000</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" onclick="setWithdrawAmount(2000)">₹2,000</button>
+                    <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" onclick="setWithdrawAmount(5000)">₹5,000</button>
+                  </div>
+                </div>
+
+                <!-- Description / Purpose -->
+                <div class="mb-4">
+                  <label for="withdraw_description" class="form-label small fw-semibold text-navy">Remarks / Purpose (Optional)</label>
+                  <input type="text" class="form-control" id="withdraw_description" name="description" placeholder="e.g. ATM Cash, Personal Expense, Bill Payment">
+                </div>
+
+                <!-- Submit Button -->
+                <button type="submit" class="btn btn-bank-primary w-100 py-2 fs-6 fw-semibold d-flex align-items-center justify-content-center gap-2" id="withdraw-submit-btn">
+                  <i class="bi bi-arrow-up-circle"></i>
+                  <span id="withdraw-btn-text">Confirm & Withdraw Cash</span>
+                </button>
+              </form>
+
+            </div>
+          </div>
+
+          <!-- Info Sidebar -->
+          <div class="col-lg-5">
+            <div class="card bank-card p-4 border-0 shadow-sm mb-4">
+              <h6 class="fw-bold text-navy mb-3">Defensive Overdraft Rules</h6>
+              <div class="d-flex align-items-start gap-2 mb-3 small text-muted">
+                <i class="bi bi-shield-check text-primary fs-5"></i>
+                <div>
+                  <strong>Server-Side Verification:</strong> Even if client-side validation were bypassed, Express checks available funds inside a locked row (<code class="text-primary">SELECT FOR UPDATE</code>) before deducting.
+                </div>
+              </div>
+              <div class="d-flex align-items-start gap-2 mb-3 small text-muted">
+                <i class="bi bi-shield-check text-primary fs-5"></i>
+                <div>
+                  <strong>Zero Overdraft Guarantee:</strong> The system strictly rejects requests when amount &gt; available balance with an explicit HTTP 400 error.
+                </div>
+              </div>
+              <div class="d-flex align-items-start gap-2 small text-muted">
+                <i class="bi bi-shield-check text-primary fs-5"></i>
+                <div>
+                  <strong>Immutable Audit Logging:</strong> Debits are stamped with a unique reference number and saved to the transactions table.
+                </div>
+              </div>
+            </div>
+
+            <!-- Last Withdrawal Receipt Card -->
+            <div class="card bank-card p-4 border-0 shadow-sm d-none" id="last-withdraw-card">
+              <div class="d-flex align-items-center gap-2 mb-2 text-danger fw-bold">
+                <i class="bi bi-check-circle-fill fs-5"></i> Withdrawal Completed!
+              </div>
+              <p class="small text-muted mb-2">Here is your transaction receipt:</p>
+              <ul class="list-group list-group-flush small">
+                <li class="list-group-item d-flex justify-content-between px-0 py-1">
+                  <span class="text-muted">Transaction ID:</span>
+                  <code class="text-navy fw-semibold" id="withdraw-receipt-ref">-</code>
+                </li>
+                <li class="list-group-item d-flex justify-content-between px-0 py-1">
+                  <span class="text-muted">Amount Debited:</span>
+                  <span class="fw-bold text-danger" id="withdraw-receipt-amount">-</span>
+                </li>
+                <li class="list-group-item d-flex justify-content-between px-0 py-1">
+                  <span class="text-muted">Remaining Balance:</span>
+                  <span class="fw-bold text-navy" id="withdraw-receipt-new-balance">-</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+
+      </main>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Client Utilities -->
+  <script src="js/config.js"></script>
+  <!-- Withdraw Script -->
+  <script src="js/withdraw.js"></script>
+</body>
+</html>

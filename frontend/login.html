@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Customer Login | ApexTrust Bank</title>
+
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Custom Styling -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="bg-light">
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-md-8 col-lg-5">
+
+        <!-- Logo Header -->
+        <div class="text-center mb-4">
+          <a href="index.html" class="d-inline-flex align-items-center gap-2 text-decoration-none fw-bold text-navy fs-3">
+            <i class="bi bi-bank2 text-primary fs-2"></i>
+            <span>ApexTrust <span class="fw-light text-primary">Bank</span></span>
+          </a>
+          <p class="text-muted-bank small mt-1">Secure Online Banking Portal</p>
+        </div>
+
+        <!-- Login Card -->
+        <div class="card bank-card p-4 p-md-5 border-0 shadow-lg">
+          <div class="mb-4">
+            <h3 class="fw-bold text-navy mb-1">Customer Sign In</h3>
+            <p class="text-muted-bank small">Access your account, transfer funds & view transactions.</p>
+          </div>
+
+          <!-- Alert Container for Messages -->
+          <div id="login-alert" class="alert d-none small py-2 px-3 mb-3" role="alert"></div>
+
+          <!-- Form -->
+          <form id="login-form" novalidate>
+            <div class="mb-3">
+              <label for="username_or_email" class="form-label fw-semibold text-navy small">Username or Email Address</label>
+              <div class="input-group">
+                <span class="input-group-text bg-light text-muted border-end-0">
+                  <i class="bi bi-person"></i>
+                </span>
+                <input type="text" class="form-control border-start-0" id="username_or_email" name="username_or_email" placeholder="e.g. john_doe or john@example.com" required autocomplete="username">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <div class="d-flex justify-content-between align-items-center">
+                <label for="password" class="form-label fw-semibold text-navy small mb-0">Password</label>
+                <button type="button" class="btn btn-link text-primary p-0 small text-decoration-none" data-bs-toggle="modal" data-bs-target="#forgotPasswordModal">
+                  Forgot Password?
+                </button>
+              </div>
+              <div class="input-group mt-1">
+                <span class="input-group-text bg-light text-muted border-end-0">
+                  <i class="bi bi-lock"></i>
+                </span>
+                <input type="password" class="form-control border-start-0 border-end-0" id="password" name="password" placeholder="Enter your password" required autocomplete="current-password">
+                <button type="button" class="btn btn-outline-secondary border-start-0" id="toggle-password-btn" title="Show or hide password">
+                  <i class="bi bi-eye" id="password-toggle-icon"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+              <div class="form-check">
+                <input class="form-check-input" type="checkbox" id="remember-me" checked>
+                <label class="form-check-label small text-muted" for="remember-me">
+                  Remember this device
+                </label>
+              </div>
+            </div>
+
+            <button type="submit" class="btn btn-bank-primary w-100 py-2 d-flex align-items-center justify-content-center gap-2 mb-3">
+              <i class="bi bi-box-arrow-in-right"></i>
+              <span id="login-btn-text">Log In to Portal</span>
+            </button>
+          </form>
+
+          <!-- Quick Fill Demo Accounts (For Viva/Demo Convenience) -->
+          <div class="p-3 bg-light rounded-3 border mb-3">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="small fw-bold text-navy"><i class="bi bi-lightning-charge-fill text-warning me-1"></i> Quick Demo Fill:</span>
+            </div>
+            <div class="d-flex gap-2">
+              <button type="button" class="btn btn-sm btn-outline-primary flex-fill" onclick="quickFill('john_doe', 'password123')">
+                John Doe
+              </button>
+              <button type="button" class="btn btn-sm btn-outline-secondary flex-fill" onclick="quickFill('jane_smith', 'password123')">
+                Jane Smith
+              </button>
+            </div>
+          </div>
+
+          <div class="text-center pt-2 border-top">
+            <span class="small text-muted">Don't have a bank account yet?</span>
+            <a href="register.html" class="small fw-semibold text-primary text-decoration-none ms-1">
+              Open an Account <i class="bi bi-arrow-right"></i>
+            </a>
+          </div>
+        </div>
+
+        <div class="text-center mt-4">
+          <a href="index.html" class="small text-muted text-decoration-none">
+            <i class="bi bi-arrow-left me-1"></i> Return to Homepage
+          </a>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Forgot Password Reset Modal -->
+  <div class="modal fade" id="forgotPasswordModal" tabindex="-1" aria-labelledby="forgotPasswordModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content border-0 shadow-lg">
+        <div class="modal-header bg-navy text-white">
+          <h5 class="modal-title fw-bold" id="forgotPasswordModalLabel">
+            <i class="bi bi-shield-lock me-1"></i> Reset Account Password
+          </h5>
+          <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <p class="small text-muted mb-3">
+            To reset your password in this demo system, verify your registered username, email, and date of birth:
+          </p>
+          <div id="reset-alert" class="alert d-none small py-2 px-3 mb-3"></div>
+
+          <form id="reset-form">
+            <div class="mb-3">
+              <label for="reset_username" class="form-label small fw-semibold">Username</label>
+              <input type="text" class="form-control" id="reset_username" required placeholder="e.g. john_doe">
+            </div>
+            <div class="mb-3">
+              <label for="reset_email" class="form-label small fw-semibold">Registered Email</label>
+              <input type="email" class="form-control" id="reset_email" required placeholder="e.g. john.doe@example.com">
+            </div>
+            <div class="mb-3">
+              <label for="reset_dob" class="form-label small fw-semibold">Date of Birth</label>
+              <input type="date" class="form-control" id="reset_dob" required>
+            </div>
+            <div class="mb-3">
+              <label for="reset_new_password" class="form-label small fw-semibold">New Password (Min 6 chars)</label>
+              <input type="password" class="form-control" id="reset_new_password" required placeholder="Enter new strong password">
+            </div>
+            <button type="submit" class="btn btn-bank-primary w-100 py-2">
+              Verify & Update Password
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Client Utilities -->
+  <script src="js/config.js"></script>
+  <!-- Auth Logic -->
+  <script src="js/auth.js"></script>
+  <script>
+    // Quick fill helper for presentation viva
+    function quickFill(user, pass) {
+      document.getElementById('username_or_email').value = user;
+      document.getElementById('password').value = pass;
+    }
+  </script>
+</body>
+</html>

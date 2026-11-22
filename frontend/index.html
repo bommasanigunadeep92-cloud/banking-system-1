@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ApexTrust Bank | Modern Banking & Account Management System</title>
+  
+  <!-- Bootstrap 5 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Icons -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <!-- Custom Styling -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-dark bg-navy sticky-top shadow-sm py-3">
+    <div class="container">
+      <a class="navbar-brand d-flex align-items-center gap-2 fw-bold text-white fs-4" href="index.html">
+        <i class="bi bi-bank2 text-primary fs-3"></i>
+        <span>ApexTrust <span class="fw-light text-primary">Bank</span></span>
+      </a>
+
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#mainNavbar">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="mainNavbar">
+        <ul class="navbar-nav ms-auto mb-2 mb-lg-0 align-items-lg-center gap-2">
+          <li class="nav-item">
+            <a class="nav-link active text-white" href="#home">Home</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white-50" href="#features">Features</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white-50" href="#security">Security</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link text-white-50" href="#about">About System</a>
+          </li>
+          <li class="nav-item ms-lg-3">
+            <a class="btn btn-outline-light px-3 py-2 rounded-3 fw-medium" href="login.html">
+              <i class="bi bi-box-arrow-in-right me-1"></i> Customer Login
+            </a>
+          </li>
+          <li class="nav-item">
+            <a class="btn btn-primary px-3 py-2 rounded-3 fw-medium" href="register.html">
+              <i class="bi bi-person-plus me-1"></i> Open Account
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+
+  <!-- Educational Project Banner -->
+  <div class="bg-primary text-white text-center py-2 px-3 small fw-medium">
+    <i class="bi bi-mortarboard-fill me-1"></i> 
+    Academic Demonstration Project: Full-Stack Banking and Account Management System (Node.js &bull; Express &bull; MySQL)
+  </div>
+
+  <!-- Hero Section -->
+  <header id="home" class="landing-hero text-white">
+    <div class="container">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-7">
+          <span class="badge bg-white text-navy px-3 py-2 rounded-pill fw-semibold mb-3">
+            <i class="bi bi-shield-check text-success me-1"></i> Next-Gen Core Banking Architecture
+          </span>
+          <h1 class="display-4 fw-bold text-white mb-3 lh-sm">
+            Intelligent, Secure & Seamless <br class="d-none d-md-inline">
+            <span class="text-info">Account Management</span>
+          </h1>
+          <p class="lead text-light mb-4" style="opacity: 0.9;">
+            Experience a modern online banking portal built with clean architecture, ACID-compliant transaction safety, bcrypt password hashing, and real-time ledger accounting.
+          </p>
+          <div class="d-flex flex-wrap gap-3 mb-4">
+            <a href="register.html" class="btn btn-primary btn-lg px-4 py-3 rounded-3 shadow">
+              <i class="bi bi-person-plus-fill me-2"></i> Get Started with Demo ₹1,000
+            </a>
+            <a href="login.html" class="btn btn-outline-light btn-lg px-4 py-3 rounded-3">
+              <i class="bi bi-box-arrow-in-right me-2"></i> Sign In to Account
+            </a>
+          </div>
+          <div class="d-flex align-items-center gap-4 pt-3 border-top border-white-50">
+            <div>
+              <div class="h4 mb-0 fw-bold text-white">100% ACID</div>
+              <small class="text-white-50">Atomic Transfers</small>
+            </div>
+            <div class="border-start border-white-50 ps-4">
+              <div class="h4 mb-0 fw-bold text-white">Bcrypt 10x</div>
+              <small class="text-white-50">Password Protection</small>
+            </div>
+            <div class="border-start border-white-50 ps-4">
+              <div class="h4 mb-0 fw-bold text-white">DECIMAL(15,2)</div>
+              <small class="text-white-50">Zero Rounding Error</small>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-5">
+          <div class="card bank-card p-4 shadow-lg border-0 text-dark">
+            <div class="d-flex justify-content-between align-items-center mb-3">
+              <span class="text-muted small fw-semibold">PRE-SEEDED DEMO ACCOUNTS</span>
+              <span class="badge bg-success-subtle text-success">Ready to Test</span>
+            </div>
+            <p class="small text-muted mb-3">You can immediately login using either pre-seeded college evaluation account:</p>
+            
+            <div class="p-3 bg-light rounded-3 mb-2 border">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold text-navy">Account 1 (John Doe)</span>
+                <span class="badge bg-primary">Bal: ₹2,500.00</span>
+              </div>
+              <div class="small text-muted">Username: <code class="text-dark">john_doe</code> | Pass: <code class="text-dark">password123</code></div>
+              <div class="small text-muted">Acc No: <span class="badge bg-secondary">1001002001</span></div>
+            </div>
+
+            <div class="p-3 bg-light rounded-3 mb-3 border">
+              <div class="d-flex justify-content-between align-items-center mb-1">
+                <span class="fw-bold text-navy">Account 2 (Jane Smith)</span>
+                <span class="badge bg-primary">Bal: ₹1,800.00</span>
+              </div>
+              <div class="small text-muted">Username: <code class="text-dark">jane_smith</code> | Pass: <code class="text-dark">password123</code></div>
+              <div class="small text-muted">Acc No: <span class="badge bg-secondary">1001002002</span></div>
+            </div>
+
+            <a href="login.html" class="btn btn-navy text-white w-100 py-2">
+              Proceed to Customer Login <i class="bi bi-arrow-right ms-1"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Features Section -->
+  <section id="features" class="py-5">
+    <div class="container py-4">
+      <div class="text-center mb-5">
+        <span class="text-primary fw-semibold text-uppercase tracking-wider small">Core Banking Capabilities</span>
+        <h2 class="display-6 fw-bold mt-1">Engineered for Robust Financial Operations</h2>
+        <p class="text-muted-bank mx-auto" style="max-width: 650px;">
+          Built from the ground up to demonstrate full-stack engineering standards, safe transactional state changes, and defensive coding principles.
+        </p>
+      </div>
+
+      <div class="row g-4">
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-box">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-shield-check"></i>
+            </div>
+            <h5 class="fw-bold mb-2">ACID Money Transfers</h5>
+            <p class="text-muted-bank mb-0 small">
+              Utilizes MySQL transactions (<code class="text-primary">START TRANSACTION</code>, <code class="text-primary">COMMIT</code>, <code class="text-primary">ROLLBACK</code>) to guarantee sender debits and receiver credits execute atomically.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-box">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-cash-stack"></i>
+            </div>
+            <h5 class="fw-bold mb-2">Simulated Deposits & Withdrawals</h5>
+            <p class="text-muted-bank mb-0 small">
+              Deposit demo money with instant balance replenishment or execute cash withdrawals with strict overdraft protection and zero negative balances.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-box">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-clock-history"></i>
+            </div>
+            <h5 class="fw-bold mb-2">Real-Time Audit Trail</h5>
+            <p class="text-muted-bank mb-0 small">
+              Every deposit, withdrawal, and transfer automatically generates a unique audit reference number, immutable date, running balance snapshot, and CSV export.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-box">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-person-badge"></i>
+            </div>
+            <h5 class="fw-bold mb-2">Automatic Account Generation</h5>
+            <p class="text-muted-bank mb-0 small">
+              Customer registration automatically checks duplicates, hashes credentials via bcrypt, and assigns a unique 10-digit demo bank account number with a $1,000 bonus.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-box">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-file-earmark-spreadsheet"></i>
+            </div>
+            <h5 class="fw-bold mb-2">CSV Statement Export</h5>
+            <p class="text-muted-bank mb-0 small">
+              Download clean, comma-separated financial statements directly to your computer with one click for easy spreadsheet auditing.
+            </p>
+          </div>
+        </div>
+
+        <div class="col-md-6 col-lg-4">
+          <div class="feature-box">
+            <div class="feature-icon-wrapper">
+              <i class="bi bi-phone"></i>
+            </div>
+            <h5 class="fw-bold mb-2">Fully Responsive UI</h5>
+            <p class="text-muted-bank mb-0 small">
+              Designed with a premium banking palette (Navy, Royal Blue, Soft Grey) that scales cleanly across mobile, tablet, and desktop viewports.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Security Section -->
+  <section id="security" class="py-5 bg-white border-top border-bottom">
+    <div class="container py-4">
+      <div class="row align-items-center g-5">
+        <div class="col-lg-6">
+          <span class="badge bg-primary-subtle text-primary px-3 py-2 rounded-pill fw-semibold mb-2">Security Architecture</span>
+          <h2 class="display-6 fw-bold text-navy mb-3">Enterprise-Grade Defensive Design</h2>
+          <p class="text-muted-bank mb-4">
+            Security is not an afterthought in this application. Multiple layers of defense protect customer data and transaction integrity.
+          </p>
+
+          <div class="d-flex flex-column gap-3">
+            <div class="d-flex align-items-start gap-3">
+              <i class="bi bi-key-fill text-primary fs-4 mt-1"></i>
+              <div>
+                <h6 class="fw-bold mb-1">Bcrypt Salted Password Hashing</h6>
+                <p class="text-muted-bank small mb-0">Passwords are never stored in plain text. Stored hashes use 10 salt rounds with adaptive cost protection.</p>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start gap-3">
+              <i class="bi bi-shield-lock-fill text-primary fs-4 mt-1"></i>
+              <div>
+                <h6 class="fw-bold mb-1">HTTP-Only Signed Session Cookies</h6>
+                <p class="text-muted-bank small mb-0">Sessions are stored server-side with <code class="text-primary">httpOnly: true</code> and <code class="text-primary">sameSite: 'lax'</code> to mitigate XSS cookie theft and CSRF attacks.</p>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start gap-3">
+              <i class="bi bi-database-check text-primary fs-4 mt-1"></i>
+              <div>
+                <h6 class="fw-bold mb-1">Parameterized SQL Queries</h6>
+                <p class="text-muted-bank small mb-0">Every database interaction uses prepared statements via <code class="text-primary">mysql2/promise</code>, completely immunizing the system against SQL injection.</p>
+              </div>
+            </div>
+
+            <div class="d-flex align-items-start gap-3">
+              <i class="bi bi-stopwatch-fill text-primary fs-4 mt-1"></i>
+              <div>
+                <h6 class="fw-bold mb-1">Brute-Force Rate Limiting</h6>
+                <p class="text-muted-bank small mb-0">Login endpoints are guarded with <code class="text-primary">express-rate-limit</code> to thwart automated password guessing bots.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="col-lg-6">
+          <div class="bank-card p-4 bg-light border shadow-sm">
+            <h5 class="fw-bold text-navy mb-3">
+              <i class="bi bi-cpu text-primary me-2"></i> Technical Stack Summary
+            </h5>
+            <div class="table-responsive">
+              <table class="table table-sm table-bordered bg-white mb-0">
+                <thead class="table-light">
+                  <tr>
+                    <th>Component</th>
+                    <th>Technology</th>
+                    <th>Purpose</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Frontend</strong></td>
+                    <td>HTML5, CSS3, Vanilla JS, Bootstrap 5</td>
+                    <td>Responsive UI, dynamic DOM, Fetch API</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Backend</strong></td>
+                    <td>Node.js, Express.js</td>
+                    <td>REST API, routing, session lifecycle</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Database</strong></td>
+                    <td>MySQL 8.0 (mysql2/promise)</td>
+                    <td>ACID relational data storage, pool cache</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Security</strong></td>
+                    <td>bcrypt, helmet, express-rate-limit</td>
+                    <td>Cryptographic hashing, HTTP headers, rate caps</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- About Section -->
+  <section id="about" class="py-5">
+    <div class="container py-4 text-center">
+      <span class="badge bg-info-subtle text-info-emphasis px-3 py-2 rounded-pill fw-semibold mb-2">College Project Guide</span>
+      <h2 class="display-6 fw-bold text-navy mb-3">Built for Demonstration & Viva Defense</h2>
+      <p class="text-muted-bank mx-auto mb-4" style="max-width: 700px;">
+        Designed to be clean, modular, and easy to explain. Every route, SQL query, and function is self-documenting so you can confidently explain the entire lifecycle to evaluators.
+      </p>
+      <div class="d-flex justify-content-center gap-3">
+        <a href="register.html" class="btn btn-primary px-4 py-2 rounded-3">Open a New Account</a>
+        <a href="login.html" class="btn btn-outline-primary px-4 py-2 rounded-3">Login with Demo User</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-navy text-white-50 py-4 mt-auto border-top border-dark">
+    <div class="container">
+      <div class="row align-items-center g-3">
+        <div class="col-md-6 text-center text-md-start">
+          <div class="d-flex align-items-center justify-content-center justify-content-md-start gap-2 text-white fw-bold fs-5 mb-1">
+            <i class="bi bi-bank2 text-primary"></i> ApexTrust Bank
+          </div>
+          <p class="small mb-0 text-white-50">Banking & Account Management System &bull; Academic Project Demonstration</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end small">
+          <span class="text-white-50">Designed for college evaluation &bull; Not for real money transactions</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Bootstrap 5 JS Bundle -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
