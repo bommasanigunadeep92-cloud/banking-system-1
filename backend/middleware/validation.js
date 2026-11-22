@@ -35,7 +35,7 @@ const validateRegistration = [
   body('full_name')
     .trim()
     .notEmpty().withMessage('Full name is required.')
-    .isLength({ min: 3, max: 100 }).withMessage('Full name must be between 3 and 100 characters.'),
+    .isLength({ min: 2, max: 100 }).withMessage('Full name must be between 2 and 100 characters.'),
   
   body('email')
     .trim()
@@ -46,7 +46,7 @@ const validateRegistration = [
   body('mobile_number')
     .trim()
     .notEmpty().withMessage('Mobile number is required.')
-    .matches(/^[0-9+\s-]{8,20}$/).withMessage('Please enter a valid mobile phone number.'),
+    .isLength({ min: 6, max: 20 }).withMessage('Please enter a valid mobile phone number.'),
 
   body('date_of_birth')
     .trim()
@@ -56,7 +56,7 @@ const validateRegistration = [
   body('address')
     .trim()
     .notEmpty().withMessage('Address is required.')
-    .isLength({ min: 5, max: 255 }).withMessage('Address must be between 5 and 255 characters.'),
+    .isLength({ min: 2, max: 255 }).withMessage('Address must be at least 2 characters.'),
 
   body('username')
     .trim()

@@ -9,8 +9,10 @@
  */
 
 document.addEventListener('DOMContentLoaded', () => {
-  // If user is already logged in, redirect straight to dashboard
-  redirectIfLoggedIn();
+  // Only auto-redirect to dashboard from login.html, NEVER block register.html
+  if (window.location.pathname.includes('login.html')) {
+    redirectIfLoggedIn();
+  }
 
   // Initialize login form if present
   initLoginForm();
@@ -167,13 +169,25 @@ function initRegisterForm() {
       });
 
       if (response.success && response.data) {
-        // Show success modal with generated account number
-        document.getElementById('modal-holder-name').textContent = response.data.full_name;
-        document.getElementById('modal-account-number').textContent = response.data.account_number;
-        document.getElementById('modal-balance').textContent = formatCurrency(response.data.balance);
+        showToast('Account created successfully!', 'success');
+        showAlert(alertBox, `🎉 Welcome, ${response.data.full_name}! Account #${response.data.account_number} created with ₹${response.data.balance} opening balance. Redirecting to dashboard...`, 'success');
 
-        const modal = new bootstrap.Modal(document.getElementById('regSuccessModal'));
-        modal.show();
+        // Show success modal with generated account number
+        try {
+          document.getElementById('modal-holder-name').textContent = response.data.full_name;
+          document.getElementById('modal-account-number').textContent = response.data.account_number;
+          document.getElementById('modal-balance').textContent = formatCurrency(response.data.balance);
+
+          const modal = new bootstrap.Modal(document.getElementById('regSuccessModal'));
+          modal.show();
+        } catch (mErr) {
+          console.warn('Modal display fallback:', mErr);
+        }
+
+        // Auto-redirect to dashboard after 2.5 seconds
+        setTimeout(() => {
+          window.location.href = 'dashboard.html';
+        }, 2500);
       }
     } catch (error) {
       showAlert(alertBox, error.message || 'Registration failed. Please check your details.', 'danger');
