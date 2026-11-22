@@ -18,13 +18,20 @@ const dotenv = require('dotenv');
 // Load environment variables from .env file
 dotenv.config();
 
+// Automatically detect cloud environment (Render, Railway, or production without local MySQL)
+const isCloud = Boolean(process.env.RENDER || process.env.RAILWAY_ENVIRONMENT || process.env.NODE_ENV === 'production');
+const shouldUseCloudDb = Boolean(
+  (process.env.DB_HOST && process.env.DB_HOST.includes('tidbcloud')) ||
+  (isCloud && (!process.env.DB_HOST || process.env.DB_HOST === 'localhost' || process.env.DB_HOST === '127.0.0.1'))
+);
+
 // Create connection pool configuration with sensible defaults
 const dbConfig = {
-  host: process.env.DB_HOST || 'localhost',
-  port: parseInt(process.env.DB_PORT, 10) || 3306,
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'banking_management_system',
+  host: shouldUseCloudDb ? 'gateway01.ap-southeast-1.prod.aws.tidbcloud.com' : (process.env.DB_HOST || 'localhost'),
+  port: shouldUseCloudDb ? 4000 : (parseInt(process.env.DB_PORT, 10) || 3306),
+  user: shouldUseCloudDb ? '2EqKpVFF3CkzYDD.root' : (process.env.DB_USER || 'root'),
+  password: shouldUseCloudDb ? 'jqZZPk6SjVVDUF3k' : (process.env.DB_PASSWORD || ''),
+  database: shouldUseCloudDb ? 'test' : (process.env.DB_NAME || 'banking_management_system'),
   waitForConnections: true,
   connectionLimit: 10,       // Maximum active connections at any time
   queueLimit: 0,             // Unlimited queue length for waiting requests
@@ -34,7 +41,7 @@ const dbConfig = {
 };
 
 // Automatically enable SSL when connecting to cloud MySQL hosts (Aiven, TiDB, Clever Cloud, etc.)
-if (process.env.DB_SSL === 'true' || (process.env.DB_HOST && process.env.DB_HOST !== 'localhost' && process.env.DB_HOST !== '127.0.0.1')) {
+if (shouldUseCloudDb || process.env.DB_SSL === 'true' || (dbConfig.host !== 'localhost' && dbConfig.host !== '127.0.0.1')) {
   dbConfig.ssl = {
     rejectUnauthorized: false
   };
