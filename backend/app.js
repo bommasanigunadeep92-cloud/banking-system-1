@@ -55,22 +55,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // 4. Session Middleware
-// Creates an HTTP-only, secure-configurable session cookie
-const isProduction = process.env.NODE_ENV === 'production';
-if (isProduction) {
-  app.set('trust proxy', 1); // Trust first reverse proxy (Render, Railway, Nginx)
-}
+// Configured with proxy trust so cookies persist across Render/Railway reverse proxies
+app.set('trust proxy', 1);
+app.enable('trust proxy');
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET || 'banking_system_college_project_default_secret_key_12345',
-    resave: false,
+    resave: true,
     saveUninitialized: false,
-    name: 'banking.sid', // Custom session cookie name
+    name: 'banking.sid',
+    proxy: true,
     cookie: {
-      httpOnly: true,    // Mitigates XSS cookie theft
-      secure: isProduction, // True only if HTTPS is enabled
-      sameSite: 'lax',   // Protects against CSRF
-      maxAge: 24 * 60 * 60 * 1000 // 24 hours in milliseconds
+      httpOnly: true,
+      secure: false, // Set to false so cookies are accepted behind Render/Railway SSL-terminating reverse proxies
+      sameSite: 'lax',
+      path: '/',
+      maxAge: 24 * 60 * 60 * 1000 // 24 hours
     }
   })
 );

@@ -30,7 +30,7 @@ async function apiFetch(endpoint, options = {}) {
       ...defaultHeaders,
       ...(options.headers || {})
     },
-    credentials: 'same-origin' // Ensures session cookie is sent with request
+    credentials: 'include' // Ensures session cookie is sent with request in all proxy scenarios
   };
 
   try {
