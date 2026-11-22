@@ -221,11 +221,23 @@ async function login(req, res) {
  * Route: POST /api/auth/logout, GET /api/auth/logout
  */
 function logout(req, res) {
+  const isProduction = process.env.NODE_ENV === 'production';
+  const cookieOptions = {
+    path: '/',
+    httpOnly: true,
+    secure: isProduction,
+    sameSite: 'lax'
+  };
+
   const finalizeLogout = () => {
-    res.clearCookie('banking.sid', { path: '/' });
-    res.clearCookie('connect.sid', { path: '/' });
-    if (req.method === 'GET') {
-      return res.redirect('/login.html');
+    res.clearCookie('banking.sid', cookieOptions);
+    res.clearCookie('connect.sid', cookieOptions);
+    res.setHeader('Set-Cookie', [
+      `banking.sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax${isProduction ? '; Secure' : ''}`,
+      `connect.sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax${isProduction ? '; Secure' : ''}`
+    ]);
+    if (req.method === 'GET' || req.query.redirect === 'true') {
+      return res.redirect('/login.html?logout=success');
     }
     return res.status(200).json({
       success: true,
@@ -234,6 +246,7 @@ function logout(req, res) {
   };
 
   if (req.session) {
+    req.session.customer = null;
     req.session.destroy((err) => {
       if (err) {
         console.error('[Logout Error]:', err);

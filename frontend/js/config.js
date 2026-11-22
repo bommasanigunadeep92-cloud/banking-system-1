@@ -208,6 +208,9 @@ async function requireAuth(onSuccess) {
  * Route protection: redirects already logged-in users away from login/register to dashboard
  */
 async function redirectIfLoggedIn() {
+  if (window.location.search.includes('logout')) {
+    return; // User explicitly requested logout, do not redirect
+  }
   const authData = await getAuthData();
   if (authData && authData.customer) {
     window.location.href = 'dashboard.html';
@@ -221,10 +224,12 @@ async function logout(e) {
   if (e && e.preventDefault) e.preventDefault();
   try {
     showLoading('Logging out securely...');
+    sessionStorage.clear();
+    localStorage.clear();
     await fetch('/api/auth/logout', {
       method: 'POST',
       headers: { 'Accept': 'application/json' },
-      credentials: 'same-origin'
+      credentials: 'include'
     });
   } catch (err) {
     console.error('Logout error:', err);
@@ -232,7 +237,7 @@ async function logout(e) {
     sessionStorage.clear();
     localStorage.clear();
     hideLoading();
-    window.location.replace('login.html');
+    window.location.href = 'login.html?logout=success';
   }
 }
 window.logout = logout;
@@ -319,7 +324,7 @@ function renderDashboardNavigation(activePage, authData) {
         </ul>
 
         <div class="p-3 border-top mt-auto">
-          <button class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2" onclick="logout()">
+          <button class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2" onclick="logout(event)">
             <i class="bi bi-box-arrow-right"></i>
             <span>Log Out</span>
           </button>
@@ -343,7 +348,7 @@ function renderDashboardNavigation(activePage, authData) {
           </div>
         </div>
 
-        <div class="d-flex align-items-center gap-3">
+        <div class="d-flex align-items-center gap-2">
           <span class="badge bg-success-subtle text-success border border-success px-3 py-2 rounded-pill d-none d-md-flex align-items-center gap-1">
             <i class="bi bi-dot fs-5"></i> System Online
           </span>
@@ -357,9 +362,13 @@ function renderDashboardNavigation(activePage, authData) {
               <li><a class="dropdown-item" href="account.html"><i class="bi bi-wallet2 me-2"></i>My Account</a></li>
               <li><a class="dropdown-item" href="profile.html"><i class="bi bi-gear me-2"></i>Security Settings</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><button class="dropdown-item text-danger" onclick="logout()"><i class="bi bi-box-arrow-right me-2"></i>Log Out</button></li>
+              <li><button class="dropdown-item text-danger" onclick="logout(event)"><i class="bi bi-box-arrow-right me-2"></i>Log Out</button></li>
             </ul>
           </div>
+          <button class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1 px-3 py-1" onclick="logout(event)" title="Sign out of your account">
+            <i class="bi bi-box-arrow-right"></i>
+            <span class="d-none d-sm-inline fw-medium">Log Out</span>
+          </button>
         </div>
       </header>
     `;
