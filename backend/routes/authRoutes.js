@@ -18,8 +18,9 @@ router.post('/register', apiLimiter, validateRegistration, authController.regist
 // Login customer
 router.post('/login', loginLimiter, validateLogin, authController.login);
 
-// Logout customer
+// Logout customer (supports both POST and direct GET link)
 router.post('/logout', authController.logout);
+router.get('/logout', authController.logout);
 
 // Get current session data
 router.get('/me', requireAuth, authController.getMe);

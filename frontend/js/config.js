@@ -217,18 +217,25 @@ async function redirectIfLoggedIn() {
 /**
  * Log out user, destroy session, and redirect to login page
  */
-async function logout() {
+async function logout(e) {
+  if (e && e.preventDefault) e.preventDefault();
   try {
     showLoading('Logging out securely...');
-    await apiFetch('/auth/logout', { method: 'POST' });
+    await fetch('/api/auth/logout', {
+      method: 'POST',
+      headers: { 'Accept': 'application/json' },
+      credentials: 'same-origin'
+    });
   } catch (err) {
     console.error('Logout error:', err);
   } finally {
     sessionStorage.clear();
+    localStorage.clear();
     hideLoading();
-    window.location.href = 'login.html';
+    window.location.replace('login.html');
   }
 }
+window.logout = logout;
 
 /**
  * Dynamically renders the sidebar and top navbar for all dashboard pages

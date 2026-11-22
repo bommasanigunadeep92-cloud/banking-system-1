@@ -22,17 +22,21 @@ async function startServer() {
   console.log('    BANKING AND ACCOUNT MANAGEMENT SYSTEM - SERVER BOOTSTRAP    ');
   console.log('================================================================');
 
-  // Verify database connection before starting HTTP listener
-  const dbConnected = await testDbConnection();
-
-  if (!dbConnected) {
-    console.error('\n [Fatal Warning] Database connection failed. Please check MySQL server status.');
-  }
-
-  const server = app.listen(PORT, () => {
-    console.log(`\n [Server Ready] HTTP server is running at: http://localhost:${PORT}`);
+  const server = app.listen(PORT, '0.0.0.0', () => {
+    console.log(`\n [Server Ready] HTTP server is running at: http://0.0.0.0:${PORT}`);
     console.log(` [Portal URL] Open your web browser: http://localhost:${PORT}/index.html`);
     console.log(' [Status] Press Ctrl+C to stop the server.\n');
+  });
+
+  // Verify database connection asynchronously so server binds port immediately
+  testDbConnection().then(dbConnected => {
+    if (dbConnected) {
+      console.log(' [Database] MySQL Connection verified successfully.');
+    } else {
+      console.error('\n [Database Warning] Database connection check failed. Ensure DB environment variables are set.');
+    }
+  }).catch(err => {
+    console.error(' [Database Error]', err.message);
   });
 
   // Graceful shutdown handling

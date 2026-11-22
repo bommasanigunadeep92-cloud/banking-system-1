@@ -218,29 +218,30 @@ async function login(req, res) {
 
 /**
  * Destroy active user session
- * Route: POST /api/auth/logout
+ * Route: POST /api/auth/logout, GET /api/auth/logout
  */
 function logout(req, res) {
+  const finalizeLogout = () => {
+    res.clearCookie('banking.sid', { path: '/' });
+    res.clearCookie('connect.sid', { path: '/' });
+    if (req.method === 'GET') {
+      return res.redirect('/login.html');
+    }
+    return res.status(200).json({
+      success: true,
+      message: 'Logged out successfully.'
+    });
+  };
+
   if (req.session) {
     req.session.destroy((err) => {
       if (err) {
         console.error('[Logout Error]:', err);
-        return res.status(500).json({
-          success: false,
-          message: 'Could not log out at this moment.'
-        });
       }
-      res.clearCookie('connect.sid');
-      return res.status(200).json({
-        success: true,
-        message: 'Logged out successfully.'
-      });
+      finalizeLogout();
     });
   } else {
-    return res.status(200).json({
-      success: true,
-      message: 'Already logged out.'
-    });
+    finalizeLogout();
   }
 }
 
