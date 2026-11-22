@@ -231,22 +231,19 @@ async function login(req, res) {
  * Route: POST /api/auth/logout, GET /api/auth/logout
  */
 function logout(req, res) {
-  const isProduction = process.env.NODE_ENV === 'production';
-  const cookieOptions = {
-    path: '/',
-    httpOnly: true,
-    secure: isProduction,
-    sameSite: 'lax'
-  };
-
   const finalizeLogout = () => {
-    res.clearCookie('banking.sid', cookieOptions);
-    res.clearCookie('connect.sid', cookieOptions);
+    // 1. Clear session cookies with explicit expired headers
+    res.clearCookie('banking.sid', { path: '/' });
+    res.clearCookie('connect.sid', { path: '/' });
     res.setHeader('Set-Cookie', [
-      `banking.sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax${isProduction ? '; Secure' : ''}`,
-      `connect.sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax${isProduction ? '; Secure' : ''}`
+      'banking.sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax',
+      'connect.sid=; Path=/; Expires=Thu, 01 Jan 1970 00:00:00 GMT; HttpOnly; SameSite=Lax'
     ]);
-    if (req.method === 'GET' || req.query.redirect === 'true') {
+    // 2. Tell modern browsers to wipe local cookies and storage
+    res.setHeader('Clear-Site-Data', '"cookies", "storage"');
+
+    // 3. Always redirect directly to login page if called via browser link
+    if (req.accepts('html') || req.method === 'GET' || req.query.redirect !== 'false') {
       return res.redirect('/login.html?logout=success');
     }
     return res.status(200).json({
@@ -258,9 +255,7 @@ function logout(req, res) {
   if (req.session) {
     req.session.customer = null;
     req.session.destroy((err) => {
-      if (err) {
-        console.error('[Logout Error]:', err);
-      }
+      if (err) console.error('[Logout Error]:', err);
       finalizeLogout();
     });
   } else {

@@ -220,25 +220,11 @@ async function redirectIfLoggedIn() {
 /**
  * Log out user, destroy session, and redirect to login page
  */
-async function logout(e) {
+function logout(e) {
   if (e && e.preventDefault) e.preventDefault();
-  try {
-    showLoading('Logging out securely...');
-    sessionStorage.clear();
-    localStorage.clear();
-    await fetch('/api/auth/logout', {
-      method: 'POST',
-      headers: { 'Accept': 'application/json' },
-      credentials: 'include'
-    });
-  } catch (err) {
-    console.error('Logout error:', err);
-  } finally {
-    sessionStorage.clear();
-    localStorage.clear();
-    hideLoading();
-    window.location.href = 'login.html?logout=success';
-  }
+  sessionStorage.clear();
+  localStorage.clear();
+  window.location.href = '/api/auth/logout';
 }
 window.logout = logout;
 
@@ -324,10 +310,10 @@ function renderDashboardNavigation(activePage, authData) {
         </ul>
 
         <div class="p-3 border-top mt-auto">
-          <button class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2" onclick="logout(event)">
+          <a href="/api/auth/logout" class="btn btn-outline-danger w-100 d-flex align-items-center justify-content-center gap-2">
             <i class="bi bi-box-arrow-right"></i>
             <span>Log Out</span>
-          </button>
+          </a>
         </div>
       </div>
     `;
@@ -362,13 +348,13 @@ function renderDashboardNavigation(activePage, authData) {
               <li><a class="dropdown-item" href="account.html"><i class="bi bi-wallet2 me-2"></i>My Account</a></li>
               <li><a class="dropdown-item" href="profile.html"><i class="bi bi-gear me-2"></i>Security Settings</a></li>
               <li><hr class="dropdown-divider"></li>
-              <li><button class="dropdown-item text-danger" onclick="logout(event)"><i class="bi bi-box-arrow-right me-2"></i>Log Out</button></li>
+              <li><a class="dropdown-item text-danger" href="/api/auth/logout"><i class="bi bi-box-arrow-right me-2"></i>Log Out</a></li>
             </ul>
           </div>
-          <button class="btn btn-sm btn-outline-danger d-flex align-items-center gap-1 px-3 py-1" onclick="logout(event)" title="Sign out of your account">
+          <a href="/api/auth/logout" class="btn btn-sm btn-danger d-flex align-items-center gap-1 px-3 py-1 text-white text-decoration-none shadow-sm" title="Sign out of your account">
             <i class="bi bi-box-arrow-right"></i>
-            <span class="d-none d-sm-inline fw-medium">Log Out</span>
-          </button>
+            <span class="fw-medium">Log Out</span>
+          </a>
         </div>
       </header>
     `;

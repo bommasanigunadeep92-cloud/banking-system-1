@@ -24,9 +24,16 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize password reset form if present
   initResetForm();
 
-  // Check if session expired query param was passed
+  // Check if user just logged out
   const urlParams = new URLSearchParams(window.location.search);
-  if (urlParams.get('session') === 'expired') {
+  if (urlParams.get('logout') === 'success') {
+    const alertBox = document.getElementById('login-alert');
+    if (alertBox) {
+      alertBox.className = 'alert alert-success small py-2 px-3 mb-3';
+      alertBox.textContent = 'You have been safely logged out.';
+      alertBox.classList.remove('d-none');
+    }
+  } else if (urlParams.get('session') === 'expired') {
     const alertBox = document.getElementById('login-alert');
     if (alertBox) {
       alertBox.className = 'alert alert-warning small py-2 px-3 mb-3';
